@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\InvoiceResource;
+use App\Http\Utils\CarSale;
 use Exception;
 use Illuminate\Http\Request;
 
@@ -10,7 +11,7 @@ class SaleController extends Controller
 {
     /**
      * @OA\Post(
-     *     path="/api/sell-car",
+     *     path="/api/sell",
      *     tags={"Car Sales"},
      *     summary="Sell a car",
      *     description="Process the sale of a car and generate an invoice",
@@ -61,7 +62,7 @@ class SaleController extends Controller
                 'installments' => 'required|integer|min:1|max:12',
             ]);
 
-            $invoice = $this->carSale->processSale($data);
+            $invoice = CarSale::processSale($data);
 
             return new InvoiceResource($invoice);
         } catch (Exception $e) {

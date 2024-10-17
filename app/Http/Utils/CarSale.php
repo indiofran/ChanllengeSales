@@ -5,10 +5,11 @@ namespace App\Http\Utils;
 use App\Models\Car;
 use App\Models\Invoice;
 use Exception;
+use Illuminate\Support\Facades\DB;
 
 class CarSale
 {
-    public function processSale($data)
+    static public function processSale($data)
     {
         return DB::transaction(function () use ($data) {
             if (!isset($data['car_id'], $data['buyer_name'], $data['buyer_dni'], $data['price'], $data['installments'])) {
@@ -31,8 +32,8 @@ class CarSale
             $installments = $data['installments'];
             $surcharge = ($installments > 1) ? $price * 0.02 * ($installments - 1) : 0;
 
-            $totalPrice = $price + $surcharge;
-            $pricePerInstallment = $totalPrice / $installments;
+            $totalPrice = round(($price + $surcharge), 2);
+            $pricePerInstallment = round(($totalPrice / $installments), 2);
 
             $invoice = Invoice::create([
                 'buyer_name' => $data['buyer_name'],

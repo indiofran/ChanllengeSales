@@ -6,14 +6,14 @@
     },
     "paths": {
         "api": {},
-        "/api/sell-car": {
+        "/api/sell": {
             "post": {
                 "tags": [
                     "Car Sales"
                 ],
                 "summary": "Sell a car",
                 "description": "Process the sale of a car and generate an invoice",
-                "operationId": "68ffe0b2af5ec1103e379ad9b05bd9f3",
+                "operationId": "9578e662b3da4783fd80d9587ee2100f",
                 "requestBody": {
                     "required": true,
                     "content": {
