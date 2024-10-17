@@ -1,0 +1,129 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Car Internal Api",
+        "version": "0.1"
+    },
+    "paths": {
+        "api": {},
+        "/api/sell-car": {
+            "post": {
+                "tags": [
+                    "Car Sales"
+                ],
+                "summary": "Sell a car",
+                "description": "Process the sale of a car and generate an invoice",
+                "operationId": "68ffe0b2af5ec1103e379ad9b05bd9f3",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "car_id",
+                                    "buyer_name",
+                                    "buyer_dni",
+                                    "price",
+                                    "installments"
+                                ],
+                                "properties": {
+                                    "car_id": {
+                                        "type": "string",
+                                        "example": "f50b17d1-43c6-4db3-8f1b-7480b6306e69"
+                                    },
+                                    "buyer_name": {
+                                        "type": "string",
+                                        "example": "Juan Pérez"
+                                    },
+                                    "buyer_dni": {
+                                        "type": "string",
+                                        "example": "12345678"
+                                    },
+                                    "price": {
+                                        "type": "number",
+                                        "example": 50000
+                                    },
+                                    "installments": {
+                                        "type": "integer",
+                                        "example": 6
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Car sold successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "buyer": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Juan Pérez"
+                                                },
+                                                "dni": {
+                                                    "type": "string",
+                                                    "example": "12345678"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "car": {
+                                            "properties": {
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Toyota Corolla"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "total_price": {
+                                            "type": "number",
+                                            "example": 50000
+                                        },
+                                        "price_per_installment": {
+                                            "type": "number",
+                                            "example": 8333.33
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": false
+                                        },
+                                        "error": {
+                                            "type": "string",
+                                            "example": "Validation error or processing issue"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Car Sales",
+            "description": "Car Sales"
+        }
+    ]
+}

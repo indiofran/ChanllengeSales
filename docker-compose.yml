@@ -1,0 +1,45 @@
+services:
+    db:
+        image: 'postgres:13'
+        environment:
+            - POSTGRES_DB=$DB_DATABASE
+            - POSTGRES_USER=$DB_USERNAME
+            - POSTGRES_PASSWORD=$DB_PASSWORD
+        volumes:
+            - 'postgres_challenge:/var/lib/postgresql/data'
+        ports:
+            - "5432:5432"
+
+    api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        volumes:
+            - .:/var/www/html
+        environment:
+            - APP_ENV=local
+            - APP_DEBUG=true
+            - APP_URL=$APP_URL
+            - DB_CONNECTION=pgsql
+            - DB_HOST=$DB_HOST
+            - DB_PORT=$DB_PORT
+            - DB_DATABASE=$DB_DATABASE
+            - DB_USERNAME=$DB_USERNAME
+            - DB_PASSWORD=$DB_PASSWORD
+            - AUTH_GUARD=$AUTH_GUARD
+        depends_on:
+            - db
+        env_file: .env
+
+    webserver:
+        image: nginx:latest
+        ports:
+            - '8000:80'
+        volumes:
+            - ./default.conf:/etc/nginx/nginx.conf
+            - .:/var/www/html
+        depends_on:
+            - api
+
+volumes:
+    postgres_challenge:
